@@ -1,7 +1,7 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import { env } from '../utils/env';
+import { env } from '../utils/env.js';
 
 
 //Для доступу до змінних оточення в середовищі Node.js використовується глобальний об'єкт process.env
