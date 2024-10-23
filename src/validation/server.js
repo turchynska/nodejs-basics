@@ -2,6 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { env } from '../utils/env.js';
+import { getAllStudents, getStudentsById } from '../services/students.js';
 
 
 //Для доступу до змінних оточення в середовищі Node.js використовується глобальний об'єкт process.env
@@ -24,6 +25,26 @@ export const startServer = () => {
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello World',
+    });
+  });
+  app.get('/students', async (req, res) => {
+    const students = await getAllStudents();
+    res.status(200).json({
+      data: students,
+    });
+  });
+  app.get('/students/:studentId', async (req, res, next) => {
+    const { studentId } = req.params;
+    const student = await getStudentsById(studentId);
+   
+    if (!student) {
+      res.status(404).json({
+        message: 'Student not found',
+      });
+      return;
+    }
+    res.status(200).json({
+      data: student,
     });
   });
 
